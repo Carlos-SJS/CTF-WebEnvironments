@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= post.title %> - Security Blog</title>
+  <style>
+    :root {
+      --primary-color: <%= theme %>;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      background-color: #f0f2f5;
+      color: #333;
+    }
+    .header {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 20px 30px;
+    }
+    .header a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    .post-content {
+      background: white;
+      border-radius: 8px;
+      padding: 30px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      margin-bottom: 30px;
+    }
+    .post-content h1 {
+      margin-top: 0;
+      color: var(--primary-color);
+    }
+    .meta {
+      font-size: 0.9em;
+      color: #777;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 15px;
+    }
+    .body-text {
+      line-height: 1.8;
+      font-size: 1.1em;
+      color: #444;
+    }
+    .comments-section {
+      background: white;
+      border-radius: 8px;
+      padding: 30px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    .comment {
+      border-bottom: 1px solid #eee;
+      padding: 15px 0;
+    }
+    .comment:last-child {
+      border-bottom: none;
+    }
+    .comment-author {
+      font-weight: bold;
+      color: var(--primary-color);
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <a href="../">&larr; Back to Home</a>
+  </div>
+
+  <div class="container">
+    <div class="post-content">
+      <h1><%= post.title %></h1>
+      <div class="meta">By <%= post.author %></div>
+      <div class="body-text">
+        <%- post.content %> <!-- Using <%- to allow HTML if needed, might be an XSS vector if we wanted to implement one, though CTFs usually rely on user input -->
+      </div>
+    </div>
+
+    <div class="comments-section">
+      <h3>Comments</h3>
+      <% if (comments.length === 0) { %>
+        <p>No comments yet.</p>
+      <% } else { %>
+        <% comments.forEach(function(comment) { %>
+          <div class="comment">
+            <div class="comment-author"><%= comment.author %></div>
+            <div class="comment-text"><%= comment.content %></div>
+          </div>
+        <% }); %>
+      <% } %>
+    </div>
+  </div>
+</body>
+</html>
