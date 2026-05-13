@@ -91,15 +91,24 @@ router.get('/download', (req, res) => {
   } else {
     // Secure Path Traversal
     const safeFile = path.basename(file);
+    
+    // Explicitly restrict access only to intended public files when secure
+    if (!safeFile.endsWith('_manual.pdf')) {
+      return res.status(403).send("Access Denied: Only public product manuals are permitted for download.");
+    }
+    
     targetPath = path.join(req.instanceInfo.path, safeFile);
   }
 
   fs.readFile(targetPath, (err, data) => {
     if (err) {
       if (file.includes('_manual.pdf')) {
-        // Mock a PDF file response so the UI buttons work smoothly
+        // Mock a valid minimal PDF file response so the browser viewer doesn't error out
+        const mockPdfStr = `%PDF-1.4\n1 0 obj\n<< /Type /Catalog\n/Pages 2 0 R\n>>\nendobj\n2 0 obj\n<< /Type /Pages\n/Kids [3 0 R]\n/Count 1\n/MediaBox [0 0 612 792]\n>>\nendobj\n3 0 obj\n<<  /Type /Page\n/Parent 2 0 R\n/Resources\n<< /Font\n<< /F1\n<< /Type /Font\n/Subtype /Type1\n/BaseFont /Helvetica\n>>\n>>\n>>\n/Contents 4 0 R\n>>\nendobj\n4 0 obj\n<< /Length 61 >>\nstream\nBT\n/F1 18 Tf\n160 400 Td\n(Mock Manual PDF - No content here) Tj\nET\nendstream\nendobj\nxref\n0 5\n0000000000 65535 f \n0000000009 00000 n \n0000000056 00000 n \n0000000147 00000 n \n0000000298 00000 n \ntrailer\n<< /Size 5\n/Root 1 0 R\n>>\nstartxref\n410\n%%EOF`;
+        
+        const pdfBuffer = Buffer.from(mockPdfStr, 'utf8');
         res.setHeader('Content-Type', 'application/pdf');
-        return res.send("%PDF-1.4\n%Mock PDF Document\n1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n");
+        return res.send(pdfBuffer);
       }
       return res.status(404).send("File not found");
     }
