@@ -31,8 +31,8 @@ router.use('/assets', (req, res, next) => {
   const vulns = config.vulnerabilities || [];
 
   if (vulns.includes('info_exposure')) {
-    // Expose the instance directory directly
-    express.static(req.instanceInfo.path)(req, res, next);
+    // Expose the instance directory directly, allowing dotfiles (like .env)
+    express.static(req.instanceInfo.path, { dotfiles: 'allow' })(req, res, next);
   } else {
     // Only pretend to serve safe assets
     res.status(403).send("Forbidden: Directory listing denied.");

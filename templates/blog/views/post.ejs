@@ -80,7 +80,7 @@
       <h1><%= post.title %></h1>
       <div class="meta">By <%= post.author %></div>
       <div class="body-text">
-        <%- post.content %> <!-- Using <%- to allow HTML if needed, might be an XSS vector if we wanted to implement one, though CTFs usually rely on user input -->
+        <%- post.content %>
       </div>
     </div>
 

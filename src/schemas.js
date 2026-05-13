@@ -20,9 +20,10 @@ const schemas = {
           name TEXT,
           price REAL,
           description TEXT,
+          internal_description TEXT,
           image_url TEXT
         `,
-        columns: ['id', 'name', 'price', 'description', 'image_url']
+        columns: ['id', 'name', 'price', 'description', 'internal_description', 'image_url']
       }
     },
     defaultData: {
@@ -30,9 +31,9 @@ const schemas = {
         { username: 'john_doe', password_raw: 'password123', role: 'user', bio: 'Just a regular user' }
       ],
       products: [
-        { name: 'Basic T-Shirt', price: 9.99, description: 'A comfortable cotton t-shirt.', image_url: 'tshirt.jpg' },
-        { name: 'Coffee Mug', price: 12.50, description: 'Keeps your coffee hot.', image_url: 'mug.jpg' },
-        { name: 'Mechanical Keyboard', price: 89.99, description: 'Click clack.', image_url: 'keyboard.jpg' }
+        { name: 'Basic T-Shirt', price: 9.99, description: 'A comfortable cotton t-shirt.', internal_description: '', image_url: 'tshirt.jpg' },
+        { name: 'Coffee Mug', price: 12.50, description: 'Keeps your coffee hot.', internal_description: '', image_url: 'mug.jpg' },
+        { name: 'Mechanical Keyboard', price: 89.99, description: 'Click clack.', internal_description: '', image_url: 'keyboard.jpg' }
       ]
     }
   },

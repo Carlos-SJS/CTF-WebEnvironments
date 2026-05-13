@@ -61,7 +61,7 @@ The system provides baseline data for all templates, so you do not need to gener
   - `products`: `id`, `name`, `price`, `description`, `image_url`
 
 ### 3. `blog` (Static Blog) - *Coming Soon*
-- **Focus**: Information Exposure, XSS.
+- **Focus**: Information Exposure.
 - **Vulnerabilities**: `info_exposure`
 - **Schemas**:
   - `posts`: `id`, `title`, `content`, `author`, `is_published`
