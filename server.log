@@ -1,0 +1,33 @@
+◇ injected env (0) from .env // tip: ⌘ override existing { override: true }
+Orchestrator running on port 3001
+Checking file_metadata logic...
+Vulnerabilities: [ 'file_metadata' ]
+Payload: CTF{test}
+Passed first if block.
+Passed template === blog block.
+imagesDir: C:\Users\carlo\Documents\GitHub\CTF-WebEnvironments\templates\blog\assets\images
+imagesDir exists!
+Raw files in directory: [ 'image.png', 'logo.png' ]
+Filtered files: [ 'image.png', 'logo.png' ]
+Files > 0!
+Writing to: C:\Users\carlo\Documents\GitHub\CTF-WebEnvironments\instances\env-367fe047\post_image_38fe494a.png
+Updating database...
+Checking file_metadata logic...
+Vulnerabilities: [ 'sqli_auth', 'idor' ]
+Payload: undefined
+Checking file_metadata logic...
+Vulnerabilities: [ 'sqli_search', 'path_traversal', 'file_metadata' ]
+Payload: CTF{ecommerce_pdf_metadata_flag}
+Passed first if block.
+Checking file_metadata logic...
+Vulnerabilities: [ 'info_exposure', 'file_metadata' ]
+Payload: CTF{blog_image_metadata_flag}
+Passed first if block.
+Passed template === blog block.
+imagesDir: C:\Users\carlo\Documents\GitHub\CTF-WebEnvironments\templates\blog\assets\images
+imagesDir exists!
+Raw files in directory: [ 'image.png', 'logo.png' ]
+Filtered files: [ 'image.png', 'logo.png' ]
+Files > 0!
+Writing to: C:\Users\carlo\Documents\GitHub\CTF-WebEnvironments\instances\env-d0855b28\post_image_e99ca444.png
+Updating database...

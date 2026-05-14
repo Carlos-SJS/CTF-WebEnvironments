@@ -31,7 +31,8 @@ const testCases = [
     config: {
       template: "ecommerce",
       theme_color: "#9b59b6", // Purple theme
-      vulnerabilities: ["sqli_search", "path_traversal"],
+      vulnerabilities: ["sqli_search", "path_traversal", "file_metadata"],
+      file_metadata_payload: "CTF{ecommerce_pdf_metadata_flag}",
       db_settings: { hash_passwords: true },
       mock_data: {
         products: [
@@ -57,7 +58,8 @@ const testCases = [
     config: {
       template: "blog",
       theme_color: "#27ae60", // Green theme
-      vulnerabilities: ["info_exposure"],
+      vulnerabilities: ["info_exposure", "file_metadata"],
+      file_metadata_payload: "CTF{blog_image_metadata_flag}",
       mock_data: {
         posts: [
           {

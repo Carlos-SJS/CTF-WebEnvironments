@@ -64,6 +64,48 @@ app.post('/api/generate', async (req, res) => {
     // Initialize database from template and mock data
     await buildDatabase(instancePath, config.template, config);
     
+    // Feature: File Metadata Exploit (Automatic Injection)
+    if ((config.vulnerabilities || []).includes('file_metadata') && config.file_metadata_payload) {
+      if (config.template === 'blog') {
+        const imagesDir = path.join(TEMPLATES_DIR, 'blog', 'assets', 'images');
+        if (fs.existsSync(imagesDir)) {
+          const rawFiles = fs.readdirSync(imagesDir);
+          const files = rawFiles.filter(f => f.match(/\.(jpg|jpeg|png|gif)$/i));
+          if (files.length > 0) {
+            const randomFile = files[Math.floor(Math.random() * files.length)];
+            let imgBuf = fs.readFileSync(path.join(imagesDir, randomFile));
+            
+            // Inject user provided payload
+            const flagBuf = Buffer.from(`\\n${config.file_metadata_payload}\\n`, 'utf8');
+            imgBuf = Buffer.concat([imgBuf, flagBuf]);
+            
+            const targetImageName = `post_image_${uuidv4().split('-')[0]}.png`;
+            const outPath = path.join(instancePath, targetImageName);
+            fs.writeFileSync(outPath, imgBuf);
+
+            // Update database to inject the image into the FIRST post
+            await new Promise((resolve, reject) => {
+              const dbPath = path.join(instancePath, 'database.sqlite');
+              const sqlite3 = require('sqlite3').verbose();
+              const db = new sqlite3.Database(dbPath);
+              db.run(
+                `UPDATE posts SET content = content || '<br><br><img src="images/' || ? || '" alt="Post Image" style="max-width: 100%; border-radius: 8px;">' WHERE id = (SELECT id FROM posts ORDER BY id ASC LIMIT 1)`,
+                [targetImageName],
+                (err) => {
+                  db.close();
+                  if (err) { console.error("Error updating post with image:", err); reject(err); }
+                  else resolve();
+                }
+              );
+            });
+          }
+        }
+      } else if (config.template === 'ecommerce') {
+        // We will pass the payload to the handler by saving it in the config
+        // Actually, it's already in the config.json, so the handler can just read it from req.instanceInfo.config.file_metadata_payload
+      }
+    }
+
     // Return the URL for Claude
     const baseUrl = process.env.BASE_URL || `http://localhost:${PORT}`;
     const url = `${baseUrl}/ctf-env/${instanceId}/`;

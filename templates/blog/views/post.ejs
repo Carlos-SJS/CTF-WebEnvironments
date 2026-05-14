@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <base href="/ctf-env/<%= req.instanceInfo.id %>/">
   <title><%= post.title %> - Security Blog</title>
   <style>
     :root {
@@ -72,7 +73,7 @@
 </head>
 <body>
   <div class="header">
-    <a href="../">&larr; Back to Home</a>
+    <a href="./">&larr; Back to Home</a>
   </div>
 
   <div class="container">

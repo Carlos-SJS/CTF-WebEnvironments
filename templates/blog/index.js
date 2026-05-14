@@ -39,6 +39,30 @@ router.use('/assets', (req, res, next) => {
   }
 });
 
+const fs = require('fs');
+
+// Serve static blog images from the instance directory
+router.get('/images/:img_name', (req, res) => {
+  const imgName = path.basename(req.params.img_name);
+  const imgPath = path.join(req.instanceInfo.path, imgName);
+  
+  fs.readFile(imgPath, (err, data) => {
+    if (err || !data) {
+      // Fallback if image not found
+      const imgBuf = Buffer.from('R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7', 'base64');
+      res.setHeader('Content-Type', 'image/gif');
+      return res.send(imgBuf);
+    }
+    
+    const lowerName = imgName.toLowerCase();
+    if (lowerName.endsWith('.png')) res.setHeader('Content-Type', 'image/png');
+    else if (lowerName.endsWith('.jpg') || lowerName.endsWith('.jpeg')) res.setHeader('Content-Type', 'image/jpeg');
+    else res.setHeader('Content-Type', 'application/octet-stream');
+    
+    res.send(data);
+  });
+});
+
 // Routes
 router.get('/', (req, res) => {
   const db = getDb(req);

@@ -21,6 +21,7 @@ Send a JSON payload with the following structure to generate an environment.
   "db_settings": {
     "hash_passwords": true // If false, passwords are plain text. If true, MD5 is used.
   },
+  "file_metadata_payload": "CTF{this_is_the_metadata_flag}", // Flag to inject into PDFs or Images if file_metadata vuln is enabled
   "mock_data": {
     "users": [
       {
@@ -53,16 +54,16 @@ The system provides baseline data for all templates, so you do not need to gener
   - `users`: `id`, `username`, `password_raw`, `password_hash`, `role`, `department`
   - `messages`: `id`, `sender_id`, `receiver_id`, `content`, `is_read`
 
-### 2. `ecommerce` (Online Store) - *Coming Soon*
-- **Focus**: Search SQLi, Path Traversal.
-- **Vulnerabilities**: `sqli_search`, `path_traversal`
+### 2. `ecommerce` (Online Store)
+- **Focus**: Search SQLi, Path Traversal, File Metadata (PDF).
+- **Vulnerabilities**: `sqli_search`, `path_traversal`, `file_metadata`
 - **Schemas**:
   - `users`: `id`, `username`, `password_raw`, `password_hash`, `role`, `bio`
-  - `products`: `id`, `name`, `price`, `description`, `image_url`
+  - `products`: `id`, `name`, `price`, `description`, `internal_description`, `image_url`
 
-### 3. `blog` (Static Blog) - *Coming Soon*
-- **Focus**: Information Exposure.
-- **Vulnerabilities**: `info_exposure`
+### 3. `blog` (Static Blog)
+- **Focus**: Information Exposure, File Metadata (Images).
+- **Vulnerabilities**: `info_exposure`, `file_metadata`
 - **Schemas**:
   - `posts`: `id`, `title`, `content`, `author`, `is_published`
   - `comments`: `id`, `post_id`, `author`, `content`
