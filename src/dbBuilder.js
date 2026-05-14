@@ -63,9 +63,11 @@ function buildDatabase(instancePath, templateName, config) {
         });
       };
 
-      // 2. Insert Default Data
-      for (const [tableName, records] of Object.entries(templateSchema.defaultData)) {
-        insertData(tableName, records);
+      // 2. Insert Default Data (unless disabled)
+      if (!config.db_settings?.disable_baseline_mock_data) {
+        for (const [tableName, records] of Object.entries(templateSchema.defaultData)) {
+          insertData(tableName, records);
+        }
       }
 
       // 3. Insert Claude's Mock Data

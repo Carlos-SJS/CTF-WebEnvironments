@@ -19,7 +19,8 @@ Send a JSON payload with the following structure to generate an environment.
     "idor"           // Enables Insecure Direct Object Reference on the dashboard
   ],
   "db_settings": {
-    "hash_passwords": true // If false, passwords are plain text. If true, MD5 is used.
+    "hash_passwords": true, // If false, passwords are plain text. If true, MD5 is used.
+    "disable_baseline_mock_data": false // If true, the default mock data is omitted, leaving ONLY Claude's specific mock_data in the DB.
   },
   "file_metadata_payload": "CTF{this_is_the_metadata_flag}", // Flag to inject into PDFs or Images if file_metadata vuln is enabled
   "mock_data": {
