@@ -28,7 +28,7 @@ Send a JSON payload with the following structure to generate an environment.
         // Custom data injected directly into the template's SQLite database
         // Schema is predefined. Do not invent custom columns!
         "username": "admin", 
-        "password_raw": "supersecret", 
+        "password": "supersecret", 
         "role": "admin",
         "department": "IT Support"
       }
@@ -51,14 +51,14 @@ The system provides baseline data for all templates, so you do not need to gener
 - **Focus**: Authentication bypass, IDOR.
 - **Vulnerabilities**: `sqli_auth`, `idor`
 - **Schemas**:
-  - `users`: `id`, `username`, `password_raw`, `password_hash`, `role`, `department`
+  - `users`: `id`, `username`, `password`, `role`, `department`
   - `messages`: `id`, `sender_id`, `receiver_id`, `content`, `is_read`
 
 ### 2. `ecommerce` (Online Store)
 - **Focus**: Search SQLi, Path Traversal, File Metadata (PDF).
 - **Vulnerabilities**: `sqli_search`, `path_traversal`, `file_metadata`
 - **Schemas**:
-  - `users`: `id`, `username`, `password_raw`, `password_hash`, `role`, `bio`
+  - `users`: `id`, `username`, `password`, `role`, `bio`
   - `products`: `id`, `name`, `price`, `description`, `internal_description`, `image_url`
 
 ### 3. `blog` (Static Blog)

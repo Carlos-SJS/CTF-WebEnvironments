@@ -7,12 +7,11 @@ const schemas = {
         schema: `
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           username TEXT UNIQUE,
-          password_raw TEXT,
-          password_hash TEXT,
+          password TEXT,
           role TEXT DEFAULT 'user',
           bio TEXT
         `,
-        columns: ['id', 'username', 'password_raw', 'password_hash', 'role', 'bio']
+        columns: ['id', 'username', 'password', 'role', 'bio']
       },
       products: {
         schema: `
@@ -28,7 +27,9 @@ const schemas = {
     },
     defaultData: {
       users: [
-        { username: 'john_doe', password_raw: 'password123', role: 'user', bio: 'Just a regular user' }
+        { username: 'john_doe', password: 'password123', role: 'user', bio: 'Just a regular user' },
+        { username: 'admin', password: 'admin', role: 'admin', bio: 'The boss' },
+        { username: 'guest', password: '12345', role: 'user', bio: 'Guest account' }
       ],
       products: [
         { name: 'Basic T-Shirt', price: 9.99, description: 'A comfortable cotton t-shirt.', internal_description: '', image_url: 'tshirt.jpg' },
@@ -43,12 +44,11 @@ const schemas = {
         schema: `
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           username TEXT UNIQUE,
-          password_raw TEXT,
-          password_hash TEXT,
+          password TEXT,
           role TEXT DEFAULT 'employee',
           department TEXT
         `,
-        columns: ['id', 'username', 'password_raw', 'password_hash', 'role', 'department']
+        columns: ['id', 'username', 'password', 'role', 'department']
       },
       messages: {
         schema: `
@@ -63,8 +63,9 @@ const schemas = {
     },
     defaultData: {
       users: [
-        { username: 'alice.smith', password_raw: 'qwerty', role: 'employee', department: 'HR' },
-        { username: 'bob.jones', password_raw: '123456', role: 'employee', department: 'Sales' }
+        { username: 'alice.smith', password: 'qwerty', role: 'employee', department: 'HR' },
+        { username: 'bob.jones', password: 'password', role: 'employee', department: 'Sales' },
+        { username: 'admin', password: 'superadmin', role: 'admin', department: 'IT' }
       ],
       messages: [
         { sender_id: 1, receiver_id: 2, content: 'Did you finish that report?', is_read: 0 }

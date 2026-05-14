@@ -49,7 +49,7 @@ router.post('/login', (req, res) => {
   if (vulns.includes('sqli_auth')) {
     // Vulnerable SQL Injection!
     // Using string concatenation directly
-    const query = `SELECT * FROM users WHERE username = '${username}' AND password_raw = '${password}'`;
+    const query = `SELECT * FROM users WHERE username = '${username}' AND password = '${password}'`;
     db.get(query, (err, row) => {
       db.close();
       if (err) {
@@ -64,9 +64,7 @@ router.post('/login', (req, res) => {
   } else {
     // Secure Login
     const isHashed = config.db_settings?.hash_passwords;
-    const query = isHashed 
-      ? `SELECT * FROM users WHERE username = ? AND password_hash = ?`
-      : `SELECT * FROM users WHERE username = ? AND password_raw = ?`;
+    const query = `SELECT * FROM users WHERE username = ? AND password = ?`;
     
     const checkPassword = isHashed ? hashPassword(password) : password;
 

@@ -10,7 +10,7 @@ const testCases = [
         users: [
           {
             username: "admin",
-            password_raw: "admin_super_secret_pw_123",
+            password: "admin_super_secret_pw_123",
             role: "admin",
             department: "IT Security"
           }

@@ -43,11 +43,8 @@ function buildDatabase(instancePath, templateName, config) {
 
           // Process password hashing if configured
           let processedRecord = { ...record };
-          if (processedRecord.password_raw && config.db_settings?.hash_passwords) {
-            processedRecord.password_hash = hashPassword(processedRecord.password_raw);
-            // We keep password_raw if we want, but usually it shouldn't be stored if hashed.
-            // But for CTFs, maybe we keep it blank if hashed. Let's let the schema decide.
-            // If the schema expects password_hash, we populate it.
+          if (processedRecord.password !== undefined && config.db_settings?.hash_passwords) {
+            processedRecord.password = hashPassword(processedRecord.password);
           }
 
           // Filter out columns not in schema
