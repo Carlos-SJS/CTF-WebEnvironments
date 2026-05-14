@@ -55,9 +55,20 @@ app.post('/ctf-api/generate', async (req, res) => {
     // If custom_files exist, write them
     if (config.custom_files && Array.isArray(config.custom_files)) {
       config.custom_files.forEach(file => {
-        // Prevent path traversal on custom file creation
-        const safeFileName = path.basename(file.path);
-        fs.writeFileSync(path.join(instancePath, safeFileName), file.content);
+        // Safely extract the path components to support subdirectories
+        // while stripping out any malicious `../` or absolute path attempts.
+        const safeParts = file.path.split(/[/\\]/).filter(p => p && p !== '..');
+        if (safeParts.length === 0) return; // Skip if invalid path
+        
+        const targetFilePath = path.join(instancePath, ...safeParts);
+        const targetDir = path.dirname(targetFilePath);
+        
+        // Ensure the target directory exists before writing the file
+        if (!fs.existsSync(targetDir)) {
+          fs.mkdirSync(targetDir, { recursive: true });
+        }
+        
+        fs.writeFileSync(targetFilePath, file.content);
       });
     }
 
