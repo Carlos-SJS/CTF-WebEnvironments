@@ -4,7 +4,7 @@ This document outlines how Claude (acting within CTF-Arena) should interact with
 
 ## Endpoint
 
-**POST** `[ORCHESTRATOR_URL]/api/generate`
+**POST** `[ORCHESTRATOR_URL]/ctf-api/generate`
 
 ## Payload Schema
 

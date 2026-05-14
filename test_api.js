@@ -90,7 +90,7 @@ async function runTests() {
   for (const test of testCases) {
     console.log(`--- Testing: ${test.name} ---`);
     try {
-      const response = await fetch("http://localhost:3001/api/generate", {
+      const response = await fetch("http://localhost:3001/ctf-api/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(test.config)

@@ -33,7 +33,7 @@ if (!fs.existsSync(TEMPLATES_DIR)) {
 // Orchestrator Endpoints
 // ---------------------------------------------------------
 
-app.post('/api/generate', async (req, res) => {
+app.post('/ctf-api/generate', async (req, res) => {
   const config = req.body;
   
   if (!config || !config.template) {
