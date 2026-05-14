@@ -35,7 +35,7 @@ if (!fs.existsSync(TEMPLATES_DIR)) {
 
 app.post('/ctf-api/generate', async (req, res) => {
   const config = req.body;
-  
+
   if (!config || !config.template) {
     return res.status(400).json({ error: 'Missing template configuration' });
   }
@@ -48,7 +48,7 @@ app.post('/ctf-api/generate', async (req, res) => {
 
     // Save config for the instance handler to read
     fs.writeFileSync(
-      path.join(instancePath, 'config.json'), 
+      path.join(instancePath, 'config.json'),
       JSON.stringify(config, null, 2)
     );
 
@@ -63,7 +63,7 @@ app.post('/ctf-api/generate', async (req, res) => {
 
     // Initialize database from template and mock data
     await buildDatabase(instancePath, config.template, config);
-    
+
     // Feature: File Metadata Exploit (Automatic Injection)
     if ((config.vulnerabilities || []).includes('file_metadata') && config.file_metadata_payload) {
       if (config.template === 'blog') {
@@ -74,11 +74,11 @@ app.post('/ctf-api/generate', async (req, res) => {
           if (files.length > 0) {
             const randomFile = files[Math.floor(Math.random() * files.length)];
             let imgBuf = fs.readFileSync(path.join(imagesDir, randomFile));
-            
+
             // Inject user provided payload
             const flagBuf = Buffer.from(`\\n${config.file_metadata_payload}\\n`, 'utf8');
             imgBuf = Buffer.concat([imgBuf, flagBuf]);
-            
+
             const targetImageName = `post_image_${uuidv4().split('-')[0]}.png`;
             const outPath = path.join(instancePath, targetImageName);
             fs.writeFileSync(outPath, imgBuf);
@@ -107,7 +107,7 @@ app.post('/ctf-api/generate', async (req, res) => {
     }
 
     // Return the URL for Claude
-    const baseUrl = process.env.BASE_URL || `http://localhost:${PORT}`;
+    const baseUrl = process.env.BASE_URL || `https://omiags.online`;
     const url = `${baseUrl}/ctf-env/${instanceId}/`;
 
     res.json({
